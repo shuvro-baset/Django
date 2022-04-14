@@ -142,3 +142,95 @@ class BookOrders(BookContent):
 =========================== 
 # getting data from two table that inherit from parent table
 products = Product.objects.all().select_related('books', 'cupboard')
+
+# django polymorphic package
+    for better query performance
+
+`Multiple Databases`
+
+settings.py => 
+    DATABASES = {
+    'default': {},
+    'users_db': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'users.db.sqlite3',
+    },
+    'blue_db': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'blue.db.sqlite3',
+    },
+    'aqua_db': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'aqua.db.sqlite3',
+    },
+}
+
+DATABASE_ROUTERS = ['routers.db_routers.AuthRouter','routers.db_routers.Blue','routers.db_routers.Aqua']
+
+* make a routers folder in root directory. make file name db_routers.py and write the below code 
+
+class AuthRouter:
+    route_app_labels = {'auth', 'contenttypes', 'sessions', 'admin'}
+
+    def db_for_read(self, model, **hints):
+        if model._meta.app_label in self.route_app_labels:
+            return 'users_db'
+        return None
+
+    def db_for_write(self, model, **hints):
+        if model._meta.app_label in self.route_app_labels:
+            return 'users_db'
+        return None
+
+    def allow_relation(self, obj1, obj2, **hints):
+        if (
+            obj1._meta.app_label in self.route_app_labels or
+            obj2._meta.app_label in self.route_app_labels
+        ):
+           return True
+        return None
+
+    def allow_migrate(self, db, app_label, model_name=None, **hints):
+        if app_label in self.route_app_labels:
+            return db == 'users_db'
+        return None
+
+class Blue:
+    route_app_labels = {'blue'}
+
+    def db_for_read(self, model, **hints):
+        if model._meta.app_label in self.route_app_labels:
+            return 'blue_db'
+        return None
+
+    def db_for_write(self, model, **hints):
+        if model._meta.app_label in self.route_app_labels:
+            return 'blue_db'
+        return None
+
+    def allow_migrate(self, db, app_label, model_name=None, **hints):
+        if app_label in self.route_app_labels:
+            return db == 'blue_db'
+        return None
+
+
+class Aqua:
+    route_app_labels = {'aqua'}
+
+    def db_for_read(self, model, **hints):
+        if model._meta.app_label in self.route_app_labels:
+            return 'aqua_db'
+        return None
+
+    def db_for_write(self, model, **hints):
+        if model._meta.app_label in self.route_app_labels:
+            return 'aqua_db'
+        return None
+
+    def allow_migrate(self, db, app_label, model_name=None, **hints):
+        if app_label in self.route_app_labels:
+            return db == 'aqua_db'
+        return None
+
+`Transaction atomic` 
+    - data transaction successfully then db save by using transaction.atomic decorator.
