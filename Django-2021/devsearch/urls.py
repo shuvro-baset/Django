@@ -25,8 +25,9 @@ urlpatterns = [
          name="password_reset_complete"),
 ]
 
-
+# media url setting 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# static route settings 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 

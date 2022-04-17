@@ -21,10 +21,13 @@
     - scripts/activate (command)
 
 `Create django project`
-    - create env and activate it 
-    - pip install django
-    - django-admin startproject 'project name'
-    - python manage.py startapp 'app name'
-    - python manage.py makemigrations 
-    - python manage.py migrate
-    - python manage.py runserver
+- create env and activate it 
+- pip install django
+- django-admin startproject 'project name'
+- python manage.py startapp 'app name'
+- python manage.py makemigrations 
+- python manage.py migrate
+- python manage.py runserver
+
+`super user/admin`
+- python manage.py createsuperuser

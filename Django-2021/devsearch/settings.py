@@ -89,6 +89,7 @@ MIDDLEWARE = [
 
     'django.middleware.security.SecurityMiddleware',
 
+    # this whitenoise package is installed for debug false mode static files render 
     'whitenoise.middleware.WhiteNoiseMiddleware',
 
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -197,6 +198,7 @@ STATICFILES_DIRS = [
 ]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
+# server side static files loading or debug false mode static files loading
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
