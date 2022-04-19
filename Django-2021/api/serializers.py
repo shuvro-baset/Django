@@ -21,8 +21,11 @@ class TagSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+# nested serializer. (while need to foreign key data we should use this method)
 class ProjectSerializer(serializers.ModelSerializer):
+    # getting owner info data
     owner = ProfileSerializer(many=False)
+    # getting tags info data
     tags = TagSerializer(many=True)
     reviews = serializers.SerializerMethodField()
 
