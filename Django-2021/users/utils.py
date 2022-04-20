@@ -40,6 +40,7 @@ def searchProfiles(request):
 
     skills = Skill.objects.filter(name__icontains=search_query)
 
+    # distinct avoid duplicate values
     profiles = Profile.objects.distinct().filter(
         Q(name__icontains=search_query) |
         Q(short_intro__icontains=search_query) |

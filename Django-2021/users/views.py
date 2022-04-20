@@ -30,6 +30,7 @@ def loginUser(request):
 
         if user is not None:
             login(request, user)
+            # this line for redirect the previous page.
             return redirect(request.GET['next'] if 'next' in request.GET else 'account')
 
         else:
@@ -69,8 +70,10 @@ def registerUser(request):
 
 
 def profiles(request):
+    # calling searchProfiles() from utils.py and destructuring values
     profiles, search_query = searchProfiles(request)
 
+    # calling pagination() from utils.py and destructuring values
     custom_range, profiles = paginateProfiles(request, profiles, 3)
     context = {'profiles': profiles, 'search_query': search_query,
                'custom_range': custom_range}
@@ -80,6 +83,7 @@ def profiles(request):
 def userProfile(request, pk):
     profile = Profile.objects.get(id=pk)
 
+    # getting skills. as profile model is connected with skills model as a foreign key so we can query like this.
     topSkills = profile.skill_set.exclude(description__exact="")
     otherSkills = profile.skill_set.filter(description="")
 
