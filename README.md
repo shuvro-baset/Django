@@ -31,3 +31,5 @@
 
 `super user/admin`
 - python manage.py createsuperuser
+
+https://testdriven.io/blog/django-custom-user-model/
